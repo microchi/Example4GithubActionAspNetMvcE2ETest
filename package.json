@@ -1,0 +1,8 @@
+{
+  "name": "Example4GithubActionAspNetMvcE2ETest",
+  "license": "MIT",
+  "scripts": { "E2ETest": "cypress run" },
+  "devDependencies": {
+    "cypress": "^7.3.0"
+  }
+}
