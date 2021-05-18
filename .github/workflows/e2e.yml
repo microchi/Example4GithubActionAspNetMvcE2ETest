@@ -31,3 +31,7 @@ jobs:
       - run: $PWD = Get-Location; Start-Process -FilePath 'C:\Program Files (x86)\IIS Express\iisexpress.exe' -ArgumentList "/path:$PWD\bin\app.publish\"      
       - run: yarn E2ETest
       - run: taskkill /IM iisexpress.exe
+      - uses: actions/upload-artifact@v2.2.3
+        with:
+          name: E2ETestVideos
+          path: .\cypress\videos\*
