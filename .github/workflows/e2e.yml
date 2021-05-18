@@ -1,0 +1,33 @@
+name: E2ETest
+on: [ push ]
+jobs:
+  build:
+    runs-on: [ windows-latest ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: microsoft/setup-msbuild@v1
+      - uses: NuGet/setup-nuget@v1.0.5
+      - uses: actions/cache@v2
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - run: yarn install
+      - name: NuGet Restore
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: nuget restore Example4GithubActionAspNetMvcE2ETest.sln
+      - run: msbuild Example4GithubActionAspNetMvcE2ETest.csproj /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+      - run: $PWD = Get-Location; Start-Process -FilePath 'C:\Program Files (x86)\IIS Express\iisexpress.exe' -ArgumentList "/path:$PWD\bin\app.publish\"      
+      - run: yarn E2ETest
+      - run: taskkill /IM iisexpress.exe
