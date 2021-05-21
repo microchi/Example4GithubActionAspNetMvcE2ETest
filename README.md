@@ -9,7 +9,7 @@ Please Visit [Action Tab](https://github.com/microchi/Example4GithubActionAspNet
 There are 3 jobs. 
 
 ```
-build -> e2e-linux (run on dcoker mono)
+build -> e2e-linux (run on linux mono xsp4)
       -> e2e-windows (run on windows iisexpress)
 ```
 
