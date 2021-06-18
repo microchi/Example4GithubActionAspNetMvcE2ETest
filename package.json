@@ -1,8 +1,12 @@
 {
   "name": "Example4GithubActionAspNetMvcE2ETest",
   "license": "MIT",
-  "scripts": { "E2ETest": "cypress run" },
+  "scripts": {
+    "E2ETest": "cross-env CYPRESS_API_URL=https://sorry-cypress-demo-director.herokuapp.com/ cy2 run --record --key xxx --parallel"
+  },
   "devDependencies": {
+    "cross-env": "^7.0.3",
+    "cy2": "^1.2.1",
     "cypress": "^7.3.0"
   }
 }

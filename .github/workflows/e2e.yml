@@ -49,7 +49,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - run: yarn install      
-      - run: yarn E2ETest -e host=http://localhost:8080      
+      - run: yarn E2ETest -e host=http://localhost:8080 --ci-build-id "$(date +%y%m%d%H%M%S)Linux"
       - uses: actions/upload-artifact@v2.2.3
         with:
           name: E2ELinuxTestVideos
@@ -76,7 +76,7 @@ jobs:
           name: AppPublish
           path: .\bin\app.publish\
       - run: Start-Process -FilePath 'C:\Program Files (x86)\IIS Express\iisexpress.exe' -ArgumentList "/path:${PWD}\bin\app.publish\"      
-      - run: yarn E2ETest
+      - run: yarn E2ETest --ci-build-id "$(date +%y%m%d%H%M%S)Windows"
       - run: taskkill /IM iisexpress.exe
       - uses: actions/upload-artifact@v2.2.3
         with:
